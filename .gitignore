@@ -1,0 +1,10 @@
+# Ignore virtual environment folder
+venv37fixed/
+
+# Ignore Python bytecode and cache
+__pycache__/
+*.py[cod]
+
+# Ignore Streamlit secrets and logs (optional)
+.streamlit/secrets.toml
+*.log
