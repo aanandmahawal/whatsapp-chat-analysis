@@ -23,22 +23,26 @@ if uploaded_file is not None:
     if st.sidebar.button("Show Analysis"):
 
         # Stats Area
-        num_messages, words, num_media_messages, num_links = helper.fetch_stats(selected_user,df)
-        st.title("Top Statistics")
+        num_messages, words, num_media_messages, num_links = helper.fetch_stats(selected_user, df)
+
+        st.markdown("<h1 style='text-align: center;'>Top Statistics</h1>", unsafe_allow_html=True)
         col1, col2, col3, col4 = st.columns(4)
 
         with col1:
-            st.header("Total Messages")
-            st.title(num_messages)
+            st.markdown("**Total Messages**", unsafe_allow_html=True)
+            st.markdown(f"<h4 style='margin-top:0px; color:#3366cc'>{num_messages}</h4>", unsafe_allow_html=True)
+
         with col2:
-            st.header("Total Words")
-            st.title(words)
+            st.markdown("**Total Words**", unsafe_allow_html=True)
+            st.markdown(f"<h4 style='margin-top:0px; color:#3366cc'>{words}</h4>", unsafe_allow_html=True)
+
         with col3:
-            st.header("Media Shared")
-            st.title(num_media_messages)
+            st.markdown("**Media Shared**", unsafe_allow_html=True)
+            st.markdown(f"<h4 style='margin-top:0px; color:#3366cc'>{num_media_messages}</h4>", unsafe_allow_html=True)
+
         with col4:
-            st.header("Links Shared")
-            st.title(num_links)
+            st.markdown("**Links Shared**", unsafe_allow_html=True)
+            st.markdown(f"<h4 style='margin-top:0px; color:#3366cc'>{num_links}</h4>", unsafe_allow_html=True)
 
         # monthly timeline
         st.title("Monthly Timeline")
