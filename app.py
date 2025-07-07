@@ -6,7 +6,7 @@ import seaborn as sns
 # Set layout
 st.set_page_config(page_title="WhatsApp Chat Analyzer", layout="wide")
 
-# Custom CSS for all styled headings
+# Custom CSS
 st.markdown("""
     <style>
         .styled-heading {
@@ -14,7 +14,10 @@ st.markdown("""
             font-size: 2.25rem;
             font-weight: 700;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin-bottom: 1rem;
+            margin: 2.5rem 0 1rem 0;
+        }
+        .styled-heading.first-heading {
+            margin-top: -3rem !important;
         }
         .blue { color: #3366cc; }
         .green { color: #2e8b57; }
@@ -22,20 +25,48 @@ st.markdown("""
         .purple { color: #800080; }
         .orange { color: #ff6600; }
         .pink { color: #cc3399; }
+
+        .info-box {
+            background-color: #f0f8ff;
+            border-left: 6px solid #1e90ff;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0 2.5rem 0;
+            border-radius: 8px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 1rem;
+            color: #003366;
+        }
     </style>
 """, unsafe_allow_html=True)
 
 # Helper function for styled headings
-def styled_heading(text, color="blue", top_margin="2rem"):
+def styled_heading(text, color="blue", is_first=False):
+    extra_class = "first-heading" if is_first else ""
     st.markdown(f"""
-        <div class='styled-heading {color}' style='margin-top:{top_margin};'>
+        <div class='styled-heading {color} {extra_class}'>
             {text}
         </div>
     """, unsafe_allow_html=True)
 
 # Sidebar
 st.sidebar.title("Whatsapp Chat Analyzer")
-uploaded_file = st.sidebar.file_uploader("Choose a file")
+uploaded_file = st.sidebar.file_uploader("Choose a .txt file", type="txt")
+
+# Save upload state
+st.session_state['uploaded_file'] = uploaded_file
+
+# Show info box only before file is uploaded
+if not uploaded_file:
+    st.markdown("""
+        <div class='info-box'>
+            <strong>Important:</strong><br>
+            • Upload <strong>only WhatsApp chat files (.txt)</strong>.<br>
+            • Make sure your chat is in <strong>either</strong> 12-hour format 
+            <em>(e.g. 11:15 AM)</em> <strong>or</strong> 24-hour format 
+            <em>(e.g. 23:15)</em>.<br>
+            • <strong>Mixing both formats is not supported</strong> and will cause an error.
+        </div>
+    """, unsafe_allow_html=True)
 
 if uploaded_file is not None:
     bytes_data = uploaded_file.getvalue()
@@ -54,7 +85,7 @@ if uploaded_file is not None:
         # --- Top Stats ---
         num_messages, words, num_media_messages, num_links = helper.fetch_stats(selected_user, df)
 
-        styled_heading("Top Statistics", "blue", top_margin="-3rem")
+        styled_heading("Top Statistics", "blue", is_first=True)
 
         col1, col2, col3, col4 = st.columns(4)
 
